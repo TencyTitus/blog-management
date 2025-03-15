@@ -1,0 +1,666 @@
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Navbar */
+header {
+    background-color: #222;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 20px;
+    position: relative; /* Add this line */
+
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    margin-right: auto; /* Align logo to the left */
+}
+
+.logo h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Navbar Links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-links a:hover {
+    color: #ff4500;
+}
+
+/* Search Box */
+.nav-links li {
+    margin: 0 15px;
+}
+
+/* Search form */
+.search-form {
+    display: flex;
+    align-items: center;
+    width: auto;
+    margin-left: 20px; /* Adjust margin to align with logo */
+}
+
+/* Search input */
+#search-input {
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+    width: 150px; /* Adjust width as needed */
+}
+/* Search button */
+.search-form button {
+    padding: 8px 12px;
+    background-color: #ff4500; /* Match the second image color */
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure button stays aligned */
+.search-form button {
+    padding: 5px 10px; /* Adjust padding for better alignment */
+    background-color: #ff4500; /* Match the second image color */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Button hover effect */
+.search-form button:hover {
+    background-color: #ff4500;
+}
+
+
+
+/* Login and Signup Links */
+.auth-links {
+    display: flex;
+    gap: 15px;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+.auth-links a {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.auth-links a:hover {
+    color: #ff4500;
+}
+
+/* Social Icons */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social-icons i {
+    font-size: 22px;
+    color: white;
+    cursor: pointer;
+}
+
+
+/* Main Container for Image & Text */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    max-width: 90%;
+    margin: auto;
+    padding: 50px 0;
+    flex-wrap: wrap; /* Makes it responsive */
+}
+
+/* Image Section */
+.left img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* Increased depth */
+    transition: transform 0.3s ease-in-out;
+}
+
+.left img:hover {
+    transform: scale(1.05);
+}
+
+/* Text Section */
+.right {
+    max-width: 500px;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+}
+
+.right h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: transparent;
+    background: linear-gradient(to right, #3498db, #e74c3c);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Paragraph Styling */
+.right p {
+    font-size: 1.9rem;
+    color: #444;
+    line-height: 1.6;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 1s forwards 0.5s;
+}
+
+
+/* Stylish Button */
+.right .btn {
+    display: inline-block;
+    background-color: #333;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 25px;
+    margin-top: 15px;
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+}
+
+.right .btn:hover {
+    background-color: #444;
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .right {
+        max-width: 100%;
+    }
+}
+/* Sticky Footer */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+    margin-top: auto; /* Ensures it sticks to bottom */
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 20px;
+}
+
+.footer-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* Quick Links */
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 8px 0;
+}
+
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #ff6347;
+}
+
+/* Newsletter */
+.newsletter form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.newsletter input {
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.newsletter button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.newsletter button:hover {
+    background-color: #e55347;
+}
+
+/* Contact */
+.contact p {
+    font-size: 1.1rem;
+    margin: 5px 0;
+}
+
+/* Social Media */
+.social-icons a {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0 10px;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2);
+    color: #ff6347;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    margin-top: 20px;
+    border-top: 1px solid #555;
+    padding-top: 10px;
+    font-size: 0.9rem;
+}
+
+.remember-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    white-space: nowrap; /* Prevents text from breaking */
+}
+
+.remember-container input {
+    margin-right: 5px; /* Adjust spacing between checkbox and text */
+}
+
+.remember-container label {
+    display: inline-block; /* Ensures 'Remember Me' stays together */
+    margin-right: auto; /* Pushes 'Forgot Password?' to the right */
+}
+
+.forgot-password {
+    text-decoration: none;
+    color: blue;
+    margin-left: 15px; /* Creates balanced spacing */
+}
+
+.auth-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, textarea, button {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Styling the file upload box */
+.file-upload-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.file-upload-box input[type="file"] {
+    padding: 5px;
+}
+.menu-toggle {
+    display: none; /* Hide on larger screens */
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* General Styles */
+.content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+    display: inline-flex; /* Use inline-flex to fit content */
+    align-items: center; /* Align text and icon properly */
+    padding: 10px 15px; /* Reduce padding */
+    background-color: #010407;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    width: auto; /* Ensure it only fits content */
+    max-width: fit-content; /* Avoid stretching */
+}
+
+
+.back-button:hover {
+    background-color: #01070e;
+}
+
+.content ul {
+    padding-left: 20px;
+}
+
+.content li {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+nav {
+    background-color: #333;
+    color: white;
+    padding: 20px 20px;
+}
+
+.logo a {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.navbar {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+}
+
+.navbar a:hover {
+    background-color: #555;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #333;
+}
+
+p {
+    line-height: 1.4;
+    color: #666;
+}
+
+
+/* Additional Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #218838;
+}
+
+/* ✅ Navbar Layout */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222;
+    padding: 15px 30px;
+}
+
+/* ✅ Left Side (EchoWrites Logo) */
+.nav-left {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+/* ✅ Center (Navbar Links) */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+}
+
+/* ✅ Search Box */
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-form input {
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+.search-form button {
+    background: #ff5500;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* ✅ Right Side (Profile Section) */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ✅ Profile Image & Username on the Same Line */
+#profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ✅ Bigger Profile Image */
+#profilePic {
+    width: 40px; /* Adjust size as needed */
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+/* ✅ Profile Text */
+#username {
+    color: white;
+    font-size: 16px;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: lightgray;
+    font-size: 14px;
+}
+
+.nav-right a:hover {
+    color: white;
+}

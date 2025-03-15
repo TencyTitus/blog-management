@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - EchoWrites</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Sign Up</h2>
+        <form id="signup-form">
+            <input type="text" name="full_name" placeholder="Full Name" required>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <div class="file-upload-box">
+                <label for="profile-pic">Upload Profile Picture:</label>
+                <input type="file" id="profile-pic" name="profile-pic" accept="image/*">
+            </div>            
+            <textarea name="bio" placeholder="Short Bio (Optional)"></textarea>
+            <input type="url" name="website" placeholder="Website/Links (Optional)">
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+    <script src="/auth.js"></script>
+</body>
+</html>

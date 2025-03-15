@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EchoWrites</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="text" id="identifier" name="email_or_username" placeholder="Email or Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <div class="remember-container">
+                <input type="checkbox" id="remember">
+                <label for="remember">Remember Me</label>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>            
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    </div>
+
+    <script>
+        // Function to store login data in localStorage
+        function loginUser(username, profilePic) {
+            localStorage.setItem("userLoggedIn", "true");
+            localStorage.setItem("username", username);
+            
+            if (profilePic) {
+                localStorage.setItem("userProfile", profilePic); // Store profile image
+            } else {
+                localStorage.setItem("userProfile", "images/default-profile.png"); // Default profile
+            }
+            
+            window.location.href = "index.html"; // Redirect to homepage
+        }
+
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+        
+            const email_or_username = document.getElementById("identifier").value.trim();
+            const password = document.getElementById("password").value.trim();
+        
+            if (!email_or_username || !password) {
+                alert("Email/Username and Password are required");
+                return;
+            }
+        
+            fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email_or_username, password })
+            })            
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Login Successful! 🎉");
+        
+                    // ✅ Store token & user details
+                    localStorage.setItem("userToken", data.token);
+                    localStorage.setItem("userLoggedIn", "true");
+                    localStorage.setItem("username", data.user.username);
+                    localStorage.setItem("userProfile", data.user.profilePic || "images/default-profile.png");
+        
+                    window.location.href = "index.html"; // Redirect to homepage
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });          
+    </script>
+</body>
+</html>
