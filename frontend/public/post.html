@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+        .post {
+            background-color: #fff;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .post h1 {
+            color: #333;
+        }
+        .post p {
+            color: #666;
+        }
+        .back-link {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Blog Post</h1>
+</header>
+
+<main>
+    <div class="post" id="post-detail">
+        <!-- Post content will be inserted here by JavaScript -->
+    </div>
+    <a href="index.html" class="back-link">Back to Blog</a>
+</main>
+
+<script>
+    // Get the post ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+
+    // Fetch the post detail
+    fetch(`http://localhost:5000/posts/${postId}`)
+        .then(response => response.json())
+        .then(post => {
+            const postDetailElement = document.getElementById('post-detail');
+
+            const postTitle = document.createElement('h1');
+            postTitle.textContent = post.title;
+            postDetailElement.appendChild(postTitle);
+
+            const postContent = document.createElement('p');
+            postContent.textContent = post.content;
+            postDetailElement.appendChild(postContent);
+        })
+        .catch(error => {
+            console.error('Error fetching post:', error);
+            document.getElementById('post-detail').innerHTML = '<p>Failed to load the post.</p>';
+        });
+</script>
+
+</body>
+</html>

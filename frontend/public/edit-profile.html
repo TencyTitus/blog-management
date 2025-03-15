@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="profile-container">
+        <h2>Edit Profile</h2>
+        <form id="edit-profile-form">
+            <!-- Profile Picture Preview -->
+            <label for="edit-profile-pic">Profile Picture:</label>
+            <img id="current-profile-pic" src="default-avatar.png" width="80" alt="Profile Picture">
+            <input type="file" id="edit-profile-pic" accept="image/*">
+            
+            <!-- Username Input -->
+            <label for="edit-username">Username:</label>
+            <input type="text" id="edit-username" placeholder="Username" required>
+            
+            <!-- Bio Input -->
+            <label for="edit-bio">Short Bio:</label>
+            <textarea id="edit-bio" placeholder="Write something about yourself..."></textarea>
+            
+            <!-- Save Button -->
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+    <script src="edit-profile.js"></script>
+</body>
+</html>

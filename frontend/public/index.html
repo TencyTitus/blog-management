@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoWrites</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- ✅ Header Section -->
+    <header>
+        <nav class="nav-container">
+            <!-- Logo -->
+            <div class="logo">
+                <h1><i class="fas fa-blog"></i> EchoWrites</h1>
+            </div>
+
+            <!-- ✅ Navigation Links -->
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/categories">Categories</a></li>
+                <li><a href="/popular-posts">Popular Posts</a></li>
+                <li><a href="/contact">Contact</a></li>
+                
+                <!-- ✅ Search Bar -->
+                <li>
+                    <form class="search-form" action="/search" method="GET">
+                        <input type="text" id="search-input" name="query" placeholder="Search...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </li>
+
+                <!-- ✅ Authentication Links -->
+                <li id="write-post" style="display: none;"><a href="create-post.html">Write a Post</a></li>
+                <li id="profile" style="display: none;">
+                    <img id="user-pic" src="" alt="Profile Picture">
+                    <span id="username"></span>
+                    <a id="edit-profile" href="edit-profile.html">Edit Profile</a>
+                </li>
+                <li id="login-btn"><a href="login.html">Login</a></li>
+                <li id="signup-btn"><a href="signup.html">Sign Up</a></li>
+                <li id="logout-btn" style="display: none;"><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+
+            <!-- ✅ Right Section: Social Media Icons -->
+            <div class="right-section">
+                <div id="social-media-links" class="social-icons"></div>
+            </div>
+
+            <!-- ✅ Hamburger Menu -->
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ✅ Welcome Section -->
+    <div class="container">
+        <div class="left">
+            <img src="images/blog-image.webp" alt="Blog Management" class="blog-image"> 
+        </div>
+        <div class="right">
+            <h1>Welcome to EchoWrites</h1>
+            <p>"Blogging is not just about writing, it's about sharing your passion with the world."</p>
+            <p>Stay inspired, stay creative, and let your words make an impact.</p>
+            <a href="/posts" class="btn">Explore Blogs</a>
+        </div>
+    </div>
+
+    <!-- ✅ JavaScript Section -->
+    <script>
+        // ✅ Toggle Menu for Mobile View
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // ✅ Handle User Authentication UI
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+
+            if (isLoggedIn) {
+                document.getElementById("write-post").style.display = "block";
+                document.getElementById("profile").style.display = "flex";
+                document.getElementById("logout-btn").style.display = "block";
+                document.getElementById("login-btn").style.display = "none";
+                document.getElementById("signup-btn").style.display = "none";
+
+                // Load user data
+                document.getElementById("user-pic").src = localStorage.getItem("userPic") || "images/default-user.png";
+                document.getElementById("username").innerText = localStorage.getItem("username") || "User";
+            }
+        });
+
+        // ✅ Logout Function
+        function logout() {
+            localStorage.removeItem("userLoggedIn");
+            localStorage.removeItem("username");
+            localStorage.removeItem("userPic");
+            location.reload();
+        }
+
+        // ✅ Social Media Links Script
+        document.addEventListener('DOMContentLoaded', function() {
+            const socialMediaContainer = document.getElementById('social-media-links');
+            const socialLinks = [
+                { platform: "facebook", url: "https://facebook.com/echowrites" },
+                { platform: "twitter", url: "https://twitter.com/echowrites" },
+                { platform: "instagram", url: "https://instagram.com/echowrites" }
+            ];
+
+            socialLinks.forEach(({ platform, url }) => {
+                const anchor = document.createElement('a');
+                anchor.href = url;
+                anchor.target = '_blank';
+                anchor.innerHTML = `<i class="fab fa-${platform} social-icon"></i>`;
+                socialMediaContainer.appendChild(anchor);
+            });
+        });
+    </script>
+
+    <!-- ✅ Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- About Section -->
+            <div class="footer-section about">
+                <h2>About EchoWrites</h2>
+                <p>Your go-to platform for insightful blogs and creative content.</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section quick-links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/categories">Categories</a></li>
+                    <li><a href="/popular-posts">Popular Posts</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="footer-section newsletter">
+                <h2>Subscribe</h2>
+                <p>Stay updated with our latest posts!</p>
+                <form>
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-section contact">
+                <h2>Contact Us</h2>
+                <p>Email: support@echowrites.com</p>
+                <p>Phone: +123 456 7890</p>
+            </div>
+
+            <!-- Social Media -->
+            <div class="footer-section social-media">
+                <h2>Follow Us</h2>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 EchoWrites. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
