@@ -152,7 +152,6 @@ app.post("/login", async (req, res) => {
 });
 
 
-
 /* --------------------- Middleware --------------------- */
 
 // Middleware to authenticate JWT tokens

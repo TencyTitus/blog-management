@@ -3,7 +3,10 @@ const router = express.Router();
 const User = require("../models/User"); // Assuming you have a User model
 const bcrypt = require("bcrypt");
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> aeeddf86f2946a95ba062a4500bef33aefb4ee18
 // Signup Route
 router.post("/signup", async (req, res) => {
     const { username, email, password } = req.body;
@@ -29,6 +32,7 @@ router.post("/signup", async (req, res) => {
 
 // Login Route
 router.post("/login", async (req, res) => {
+<<<<<<< HEAD
     try {
       const { email, password } = req.body;
   
@@ -47,3 +51,20 @@ router.post("/login", async (req, res) => {
   });
   
   module.exports = router;
+=======
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        res.json({ message: "Login successful!" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
+});
+
+module.exports = router;
+>>>>>>> aeeddf86f2946a95ba062a4500bef33aefb4ee18
