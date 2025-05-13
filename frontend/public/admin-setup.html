@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Setup - EchoWrites</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            background: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #1976D2;
+        }
+
+        .error-message {
+            color: #f44336;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #ef9a9a;
+        }
+
+        .success-message {
+            color: #4caf50;
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #a5d6a7;
+        }
+
+        .help-text {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Setup</h1>
+        <div id="message"></div>
+        
+        <form id="admin-setup-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <div class="help-text">Password must be at least 6 characters long</div>
+            </div>
+
+            <div class="form-group">
+                <label for="adminSecret">Admin Secret Key</label>
+                <input type="text" id="adminSecret" name="adminSecret" required value="your-admin-secret-key">
+                <div class="help-text">Use the default key: your-admin-secret-key</div>
+            </div>
+
+            <button type="submit" class="submit-btn">Create Admin</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('admin-setup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const adminSecret = document.getElementById('adminSecret').value;
+            const messageDiv = document.getElementById('message');
+
+            // Basic validation
+            if (password.length < 6) {
+                messageDiv.className = 'error-message';
+                messageDiv.textContent = 'Password must be at least 6 characters long';
+                return;
+            }
+
+            try {
+                console.log('Attempting to create admin with email:', email);
+                
+                const response = await fetch('/api/admin/create-admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        adminSecret
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Admin creation response:', data);
+
+                if (response.ok) {
+                    messageDiv.className = 'success-message';
+                    messageDiv.textContent = 'Admin created successfully! Redirecting to login...';
+                    
+                    // Clear form
+                    e.target.reset();
+                    
+                    // Redirect to login page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/login.html';
+                    }, 2000);
+                } else {
+                    messageDiv.className = 'error-message';
+                    messageDiv.textContent = data.message || 'Failed to create admin user';
+                }
+            } catch (error) {
+                console.error('Admin creation error:', error);
+                messageDiv.className = 'error-message';
+                messageDiv.textContent = 'An error occurred. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html> 

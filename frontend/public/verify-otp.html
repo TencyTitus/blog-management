@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP - EchoWrites</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .verify-otp-container {
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .verify-otp-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #f44336;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        .verify-btn {
+            background: #f44336;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .verify-btn:hover {
+            background: #1976D2;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #ffebee;
+            border-radius: 4px;
+            border: 1px solid #ef9a9a;
+            display: none;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            border: 1px solid #a5d6a7;
+            display: none;
+        }
+
+        .back-to-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-to-login a {
+            color: #f44336;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-to-login a:hover {
+            text-decoration: underline;
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 24px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .otp-input:focus {
+            border-color: #f44336;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.1);
+        }
+
+        .resend-otp {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .resend-otp a {
+            color: #f44336;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 5px;
+        }
+
+        .resend-otp a:hover {
+            text-decoration: underline;
+        }
+
+        .new-password-section {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .email-display {
+            background: #f5f5f5;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 10px 0 20px;
+            font-weight: 500;
+            color: #555;
+            text-align: center;
+        }
+        
+        .test-mode-indicator {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #ffeeba;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <a href="/"><i class="fas fa-blog"></i> EchoWrites</a>
+            </div>
+        </div>
+        
+        <div class="nav-bar">
+            <div class="nav-left">
+                <nav>
+                    <a href="/">Home</a>
+                </nav>
+            </div>
+            
+            <div class="nav-right">
+                <a href="login.html">Login</a>
+                <a href="signup.html">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="verify-otp-container">
+        <h1>Verify OTP</h1>
+        <p>Enter the 6-digit verification code sent to your email address.</p>
+        <div id="email-display" class="email-display"></div>
+        
+        <form id="verify-otp-form" class="verify-otp-form">
+            <input type="hidden" id="email" name="email">
+            
+            <div class="form-group">
+                <label for="otp-input-1">One-Time Password (OTP)</label>
+                <div class="otp-inputs">
+                    <input type="text" id="otp-input-1" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    <input type="text" id="otp-input-2" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    <input type="text" id="otp-input-3" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    <input type="text" id="otp-input-4" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    <input type="text" id="otp-input-5" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    <input type="text" id="otp-input-6" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                </div>
+                <input type="hidden" id="otp" name="otp">
+            </div>
+            
+            <div id="new-password-section" class="new-password-section">
+                <div class="form-group">
+                    <label for="password">New Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your new password" required disabled>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm your new password" required disabled>
+                </div>
+            </div>
+            
+            <button type="submit" class="verify-btn" id="verify-btn">Verify OTP</button>
+            
+            <div id="error-message" class="error-message"></div>
+            <div id="success-message" class="success-message"></div>
+        </form>
+
+        <div class="resend-otp">
+            Didn't receive the code? <a href="#" id="resend-link">Resend OTP</a>
+        </div>
+
+        <div class="back-to-login">
+            <a href="login.html">Back to Login</a>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get email from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            
+            if (!email) {
+                window.location.href = 'forgot-password.html';
+                return;
+            }
+            
+            // Set email in hidden field and display it
+            document.getElementById('email').value = email;
+            document.getElementById('email-display').textContent = email;
+            
+            // Handle OTP input fields
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const otpHiddenInput = document.getElementById('otp');
+            
+            // Handle OTP input behavior
+            otpInputs.forEach((input, index) => {
+                // Auto-focus next input when a digit is entered
+                input.addEventListener('input', function() {
+                    if (this.value.length === 1) {
+                        if (index < otpInputs.length - 1) {
+                            otpInputs[index + 1].focus();
+                        }
+                    }
+                    updateOtpValue();
+                });
+                
+                // Handle backspace to go to previous input
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+                
+                // Ensure only numbers are entered
+                input.addEventListener('keypress', function(e) {
+                    if (!/^\d$/.test(e.key)) {
+                        e.preventDefault();
+                    }
+                });
+                
+                // Handle paste event for the entire OTP
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pasteData = e.clipboardData.getData('text');
+                    if (/^\d+$/.test(pasteData)) {
+                        for (let i = 0; i < Math.min(pasteData.length, otpInputs.length); i++) {
+                            otpInputs[i].value = pasteData.charAt(i);
+                        }
+                        updateOtpValue();
+                        if (otpInputs.length > pasteData.length) {
+                            otpInputs[pasteData.length].focus();
+                        } else {
+                            otpInputs[otpInputs.length - 1].focus();
+                        }
+                    }
+                });
+            });
+            
+            function updateOtpValue() {
+                let otpValue = '';
+                otpInputs.forEach(input => {
+                    otpValue += input.value;
+                });
+                otpHiddenInput.value = otpValue;
+            }
+            
+            // Form submission for OTP verification
+            const form = document.getElementById('verify-otp-form');
+            const verifyBtn = document.getElementById('verify-btn');
+            const newPasswordSection = document.getElementById('new-password-section');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Hide any previous messages
+                hideMessages();
+                
+                const email = document.getElementById('email').value;
+                const otp = document.getElementById('otp').value;
+                
+                // Check if we're in password reset mode
+                if (newPasswordSection.style.display === 'block') {
+                    // Handle password reset
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    
+                    if (!password || !confirmPassword) {
+                        showError('Please enter and confirm your new password');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        showError('Passwords do not match');
+                        return;
+                    }
+                    
+                    if (password.length < 6) {
+                        showError('Password must be at least 6 characters long');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const originalBtnText = verifyBtn.textContent;
+                    verifyBtn.textContent = 'Resetting Password...';
+                    verifyBtn.disabled = true;
+                    
+                    try {
+                        const response = await fetch('/api/auth/reset-password', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ email, otp, password })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (response.ok) {
+                            showSuccess('Your password has been reset successfully. You will be redirected to the login page shortly.');
+                            
+                            // Redirect to login page after 3 seconds
+                            setTimeout(() => {
+                                window.location.href = 'login.html';
+                            }, 3000);
+                        } else {
+                            showError(data.message || 'Failed to reset password. Please try again.');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showError('An error occurred. Please try again later.');
+                    } finally {
+                        // Reset button state
+                        verifyBtn.textContent = originalBtnText;
+                        verifyBtn.disabled = false;
+                    }
+                } else {
+                    // Handle OTP verification
+                    if (otp.length !== 6) {
+                        showError('Please enter the complete 6-digit OTP');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const originalBtnText = verifyBtn.textContent;
+                    verifyBtn.textContent = 'Verifying...';
+                    verifyBtn.disabled = true;
+                    
+                    try {
+                        const response = await fetch('/api/auth/verify-otp', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ email, otp })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (response.ok) {
+                            showSuccess('OTP verified successfully. Please set your new password.');
+                            
+                            // Show password reset form
+                            newPasswordSection.style.display = 'block';
+                            verifyBtn.textContent = 'Reset Password';
+                            
+                            // Enable password fields
+                            document.getElementById('password').disabled = false;
+                            document.getElementById('confirm-password').disabled = false;
+                            
+                            // Focus on password field
+                            document.getElementById('password').focus();
+                        } else {
+                            showError(data.message || 'Invalid OTP. Please try again.');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showError('An error occurred. Please try again later.');
+                    } finally {
+                        // Reset button state if still in verification mode
+                        if (newPasswordSection.style.display !== 'block') {
+                            verifyBtn.textContent = originalBtnText;
+                        }
+                        verifyBtn.disabled = false;
+                    }
+                }
+            });
+            
+            // Handle resend OTP
+            document.getElementById('resend-link').addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                // Hide any previous messages
+                hideMessages();
+                
+                const email = document.getElementById('email').value;
+                
+                try {
+                    const response = await fetch('/api/auth/forgot-password', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        showSuccess('A new OTP has been sent to your email address.');
+                        
+                        // Clear OTP fields
+                        otpInputs.forEach(input => {
+                            input.value = '';
+                        });
+                        otpHiddenInput.value = '';
+                        otpInputs[0].focus();
+                        
+                        // If in development mode and OTP is returned, auto-fill it
+                        if (data.isDevelopment && data.otp) {
+                            for (let i = 0; i < Math.min(data.otp.length, otpInputs.length); i++) {
+                                otpInputs[i].value = data.otp.charAt(i);
+                            }
+                            updateOtpValue();
+                        }
+                    } else {
+                        showError(data.message || 'Failed to resend OTP. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('An error occurred. Please try again later.');
+                }
+            });
+            
+            function showError(message) {
+                const errorMessage = document.getElementById('error-message');
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                document.getElementById('success-message').style.display = 'none';
+            }
+            
+            function showSuccess(message) {
+                const successMessage = document.getElementById('success-message');
+                successMessage.textContent = message;
+                successMessage.style.display = 'block';
+                document.getElementById('error-message').style.display = 'none';
+            }
+            
+            function hideMessages() {
+                document.getElementById('error-message').style.display = 'none';
+                document.getElementById('success-message').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

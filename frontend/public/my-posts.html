@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Posts - EchoWrites</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .posts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .post-title {
+            color: #333;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-content {
+            color: #444;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .post-content p {
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .post-actions button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #da190b;
+        }
+
+        .view-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background-color: #0b7dda;
+        }
+
+        .no-posts {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filters select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-width: 150px;
+        }
+
+        .header {
+            background: #333;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex: 1;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 0;
+            transition: all 0.3s;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-left: auto;
+        }
+
+        .search-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-input {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .search-button {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .search-button:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #auth-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        #auth-buttons a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: all 0.3s;
+            background: transparent;
+            border: none;
+        }
+
+        #auth-buttons a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #user-menu {
+            display: none;
+        }
+
+        #user-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: all 0.3s;
+            background: transparent;
+            border: none;
+        }
+
+        #user-menu a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-blog"></i>
+            EchoWrites
+        </a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="categories.html">Categories</a>
+            <a href="popular-posts.html">Popular Posts</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="auth-section">
+            <div class="search-section">
+                <input type="text" class="search-input" placeholder="Search posts...">
+                <button class="search-button" onclick="searchPosts()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div id="auth-buttons">
+                <a href="login.html">Login</a>
+                <a href="signup.html">Sign Up</a>
+            </div>
+            <div id="user-menu" style="display: none;">
+                <a href="my-posts.html" class="my-posts-link active">My Posts</a>
+                <a href="write.html" class="write-post-btn">Write Post</a>
+                <a href="edit-profile.html">Edit Profile</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="page-header">
+            <h1>My Posts</h1>
+            <div class="filters">
+                <select id="category-filter">
+                    <option value="">All Categories</option>
+                    <option value="technology">Technology</option>
+                    <option value="lifestyle">Lifestyle</option>
+                    <option value="food">Food</option>
+                    <option value="travel">Travel</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="sort-filter">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="posts-container" class="posts-container">
+            <!-- Posts will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const token = localStorage.getItem('token');
+                const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+                const username = localStorage.getItem("username");
+                
+                if (!isLoggedIn || !token) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Update UI elements based on login state
+                document.getElementById("user-menu").style.display = "block";
+                document.getElementById("auth-buttons").style.display = "none";
+
+                // Load posts after UI is updated
+                await loadPosts();
+
+            } catch (error) {
+                console.error('Error:', error);
+                const container = document.getElementById('posts-container');
+                container.innerHTML = `
+                    <div class="error-message">
+                        <h3>Error loading posts</h3>
+                        <p>${error.message}</p>
+                        <button onclick="loadPosts()" class="retry-button">Try Again</button>
+                    </div>
+                `;
+            }
+        });
+
+        async function loadPosts() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
+
+                const category = document.getElementById('category-filter').value;
+                const sort = document.getElementById('sort-filter').value;
+
+                console.log('Fetching user posts...');
+
+                const response = await fetch('/api/posts/my-posts', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.clear();
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                }
+
+                let posts = await response.json();
+                console.log(`Fetched ${posts.length} posts`);
+
+                // Apply filters
+                if (category) {
+                    posts = posts.filter(post => post.category === category);
+                }
+
+                // Apply sorting
+                posts.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return sort === 'newest' ? dateB - dateA : dateA - dateB;
+                });
+
+                displayPosts(posts);
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                const container = document.getElementById('posts-container');
+                container.innerHTML = `
+                    <div class="error-message">
+                        <h3>Error loading your posts</h3>
+                        <p>${error.message}</p>
+                        <button onclick="loadPosts()" class="retry-button">Try Again</button>
+                    </div>
+                `;
+            }
+        }
+
+        function displayPosts(posts) {
+            const container = document.getElementById('posts-container');
+            container.innerHTML = '';
+
+            if (!posts || posts.length === 0) {
+                container.innerHTML = `
+                    <div class="no-posts">
+                        <h3>No posts found</h3>
+                        <p>Start writing your first post!</p>
+                        <a href="write.html" class="primary-button">Write a Post</a>
+                    </div>
+                `;
+                return;
+            }
+
+            posts.forEach(post => {
+                const postElement = document.createElement('article');
+                postElement.className = 'post-card';
+                
+                const date = new Date(post.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                // Truncate content for preview
+                const maxLength = 200;
+                const truncatedContent = post.content.length > maxLength 
+                    ? post.content.substring(0, maxLength) + '...' 
+                    : post.content;
+
+                postElement.innerHTML = `
+                    <h2 class="post-title">${post.title}</h2>
+                    <div class="post-meta">
+                        <span>${date}</span>
+                        <span>${post.category || 'Uncategorized'}</span>
+                    </div>
+                    <div class="post-content">
+                        <p>${truncatedContent}</p>
+                    </div>
+                    <div class="post-actions">
+                        <button onclick="editPost('${post._id}')" class="edit-btn">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button onclick="deletePost('${post._id}')" class="delete-btn">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <button onclick="viewPost('${post._id}')" class="view-btn">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(postElement);
+            });
+        }
+
+        function editPost(postId) {
+            window.location.href = `write.html?postId=${postId}`;
+        }
+
+        async function deletePost(postId) {
+            if (!confirm('Are you sure you want to delete this post?')) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`/api/posts/${postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to delete post');
+                }
+
+                alert('Post deleted successfully');
+                loadPosts();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to delete post: ' + error.message);
+            }
+        }
+
+        function viewPost(postId) {
+            window.location.href = `post.html?id=${postId}`;
+        }
+
+        function logout() {
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            localStorage.removeItem('token');
+            localStorage.removeItem('userLoggedIn');
+            localStorage.removeItem('username');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('isAdmin');
+            
+            // Redirect based on user role
+            if (isAdmin) {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

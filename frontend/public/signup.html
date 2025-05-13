@@ -4,27 +4,285 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - EchoWrites</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .signup-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #2196F3;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .signup-btn {
+            background: #f44336;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .signup-btn:hover {
+            background: #1976D2;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #ffebee;
+            border-radius: 4px;
+            border: 1px solid #ef9a9a;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            border: 1px solid #a5d6a7;
+        }
+
+        .form-divider {
+            margin: 20px 0;
+            border-top: 1px solid #eee;
+            position: relative;
+        }
+
+        .form-divider span {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .optional-label {
+            color: #666;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .required-label {
+            color: #f44336;
+            font-size: 12px;
+            margin-left: 2px;
+        }
+
+        .input-hint {
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
-    <div class="auth-container">
-        <h2>Sign Up</h2>
-        <form id="signup-form">
-            <input type="text" name="full_name" placeholder="Full Name" required>
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-            <div class="file-upload-box">
-                <label for="profile-pic">Upload Profile Picture:</label>
-                <input type="file" id="profile-pic" name="profile-pic" accept="image/*">
-            </div>            
-            <textarea name="bio" placeholder="Short Bio (Optional)"></textarea>
-            <input type="url" name="website" placeholder="Website/Links (Optional)">
-            <button type="submit">Sign Up</button>
+    <!-- Header Section -->
+    <header>
+        <!-- Top Row -->
+        <div class="top-bar">
+            <div class="logo">
+                <a href="/"><i class="fas fa-blog"></i> EchoWrites</a>
+            </div>
+        </div>
+        
+        <!-- Bottom Row -->
+        <div class="nav-bar">
+            <div class="nav-left">
+                <nav>
+                    <a href="/">Home</a>
+                </nav>
+            </div>
+            
+            <div class="nav-right">
+                <a href="login.html">Login</a>
+                <a href="signup.html" class="active">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="signup-container">
+        <h1>Create Account</h1>
+        <form id="signup-form" class="signup-form">
+            <div class="form-group">
+                <label for="fullname">Full Name <span class="required-label">*</span></label>
+                <input type="text" id="fullname" name="fullname" required placeholder="Your full name">
+            </div>
+            <div class="form-group">
+                <label for="username">Username <span class="required-label">*</span></label>
+                <input type="text" id="username" name="username" required minlength="3" maxlength="50" placeholder="Choose a unique username">
+                <small class="input-hint">3-50 characters, must be unique</small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email <span class="required-label">*</span></label>
+                <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Password <span class="required-label">*</span></label>
+                <input type="password" id="password" name="password" required minlength="6" placeholder="Choose a secure password">
+                <small class="input-hint">At least 6 characters</small>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password <span class="required-label">*</span></label>
+                <input type="password" id="confirm-password" name="confirm-password" required minlength="6" placeholder="Type your password again">
+            </div>
+
+            <div class="form-divider">
+                <span>Optional Information</span>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Short Bio <span class="optional-label">(Optional)</span></label>
+                <textarea id="bio" name="bio" placeholder="Tell us a little about yourself..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="website">Website/Links <span class="optional-label">(Optional)</span></label>
+                <input type="url" id="website" name="website" placeholder="https://your-website.com">
+            </div>
+
+            <button type="submit" class="signup-btn">Create Account</button>
+            <div id="message"></div>
         </form>
-        <p>Already have an account? <a href="login.html">Login</a></p>
-    </div>
-    <script src="/auth.js"></script>
+        <p style="text-align: center; margin-top: 20px;">
+            Already have an account? <a href="login.html">Login</a>
+        </p>
+    </main>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const messageDiv = document.getElementById('message');
+            messageDiv.className = '';
+            messageDiv.textContent = '';
+            
+            // Disable submit button and show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating Account...';
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                messageDiv.className = 'error-message';
+                messageDiv.textContent = 'Passwords do not match';
+                return;
+            }
+
+            if (password.length < 6) {
+                messageDiv.className = 'error-message';
+                messageDiv.textContent = 'Password must be at least 6 characters long';
+                return;
+            }
+
+            const formData = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: password,
+                confirmPassword: confirmPassword,
+                fullname: document.getElementById('fullname').value || undefined,
+                bio: document.getElementById('bio').value || undefined,
+                website: document.getElementById('website').value || undefined
+            };
+
+            try {
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Signup failed');
+                }
+
+                // Store user data in localStorage
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', data.user.username);
+                localStorage.setItem('email', data.user.email);
+                localStorage.setItem('isAdmin', data.user.isAdmin);
+                localStorage.setItem('userLoggedIn', 'true');
+
+                // Show success message
+                messageDiv.className = 'success-message';
+                messageDiv.textContent = data.message || 'Account created successfully! Redirecting...';
+
+                // Redirect to home page after a short delay
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+
+            } catch (error) {
+                console.error('Signup error:', error);
+                messageDiv.className = 'error-message';
+                messageDiv.textContent = error.message || 'Failed to create account. Please try again.';
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        });
+    </script>
 </body>
 </html>

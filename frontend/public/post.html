@@ -5,50 +5,1124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post</title>
     <link rel="stylesheet" href="styles.css"> <!-- Link your CSS -->
+    <style>
+        /* Post Styles */
+        .post-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .back-btn:hover {
+            color: #333;
+        }
+
+        .post-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+
+        .post-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-meta i {
+            color: #2196F3;
+        }
+
+        .post-category {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: #495057;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .post-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 3rem;
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            width: 100%;
+            max-height: none;
+            overflow: visible;
+        }
+
+        .post-content p {
+            margin-bottom: 1.5rem;
+            white-space: normal;
+        }
+
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .post-content h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin: 2rem 0 1rem;
+        }
+
+        .post-content h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin: 1.8rem 0 1rem;
+        }
+
+        .post-content ul, .post-content ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+
+        .post-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .post-content blockquote {
+            border-left: 4px solid #2196F3;
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .post-content code {
+            background: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .post-content pre {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        .post-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 1.5rem 0;
+            border-top: 1px solid #eee;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .action-button.liked {
+            color: #e91e63;
+        }
+
+        .action-button.liked i {
+            color: #e91e63;
+        }
+
+        .comments-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .comments-header {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+
+        .comment-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            resize: vertical;
+        }
+
+        .comment-submit {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .comment-submit:hover {
+            background: #1976D2;
+        }
+
+        .login-prompt {
+            text-align: center;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .login-prompt a {
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .comments-list {
+            margin-top: 2rem;
+        }
+
+        .comment {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .comment-author {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .comment-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .comment-content {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 2rem;
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            color: #856404;
+            margin: 2rem 0;
+        }
+
+        .error-message h2 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+
+        .retry-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .retry-button:hover {
+            background: #1976D2;
+        }
+
+        .post-limit {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-limit h1 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-limit p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .subscription-info {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .subscription-info h2 {
+            color: #2196F3;
+            margin-bottom: 1rem;
+        }
+
+        .benefits {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .benefits li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0.8rem 0;
+            color: #555;
+        }
+
+        .benefits i {
+            color: #4CAF50;
+        }
+
+        .subscription-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .subscribe-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .subscribe-button:hover {
+            background: #1976D2;
+        }
+
+        .later-button {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .later-button:hover {
+            background: #555;
+        }
+
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1001;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .share-modal.active {
+            display: block;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            padding: 0.5rem;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .share-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .share-option:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .share-option i {
+            font-size: 1.5rem;
+        }
+
+        .share-option span {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .share-modal h2 {
+            color: #333;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+
+
+        .share-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .share-stat {
+            text-align: center;
+        }
+
+        .share-stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2196F3;
+            display: block;
+        }
+
+        .share-stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Remove subscription styles as they belong in explore page */
+        .post-limit,
+        .subscription-modal,
+        .subscription-info,
+        .benefits,
+        .subscription-actions,
+        .subscribe-button,
+        .later-button {
+            display: none;
+        }
+
+        /* Show subscription elements for logged-in users */
+        .logged-in .post-limit,
+        .logged-in .subscription-info,
+        .logged-in .benefits,
+        .logged-in .subscription-actions,
+        .logged-in .subscribe-button,
+        .logged-in .later-button {
+            display: block;
+        }
+
+        article#post-content {
+            background: white;
+            padding: 0;
+            border-radius: 12px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-
-    <!-- Header -->
+    <!-- Header Section -->
     <header>
-        <h1>My Blog</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+        <!-- Top Row -->
+        <div class="top-bar">
+            <div class="logo">
+                <a href="/"><i class="fas fa-blog"></i> EchoWrites</a>
+            </div>
+            <div class="welcome-message" id="welcome-message" style="display: none;">
+                Welcome! <span id="header-username" style="color: #ff6347;"></span>
+            </div>
+        </div>
+        
+        <!-- Bottom Row -->
+        <div class="nav-bar">
+            <div class="nav-left">
+                <nav>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="categories.html">Categories</a>
+                    <a href="popular-posts.html">Popular Posts</a>
+                    <a href="contact.html">Contact</a>
+                </nav>
+            </div>
+            
+            <div class="nav-right">
+                <!-- Logged in buttons -->
+                <a href="write.html" id="write-post" class="nav-link" style="display: none;">Write a Post</a>
+                <a href="my-posts.html" id="my-posts-nav" class="nav-link" style="display: none;">My Posts</a>
+                <a href="edit-profile.html" id="profile" class="nav-link" style="display: none;">Edit Profile</a>
+                <a href="#" id="logout-btn" class="nav-link" onclick="logout()" style="display: none;">Logout</a>
+                
+                <!-- Logged out buttons -->
+                <a href="login.html" id="login-btn" class="nav-link">Login</a>
+                <a href="signup.html" id="signup-btn" class="nav-link">Sign Up</a>
+            </div>
+        </div>
     </header>
 
-    <!-- Post Container -->
-    <div class="post-container">
-        <div id="post-detail">
-            <p>Loading post...</p>
+    <main class="post-container">
+        <a href="/explore.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Explore
+        </a>
+
+        <!-- Post Content Section -->
+        <article id="post-content">
+            <!-- Post content will be dynamically inserted here -->
+        </article>
+
+        <!-- Post Actions -->
+        <div class="post-actions">
+            <button id="like-button" class="action-button">
+                <i class="far fa-heart"></i> <span id="likes-count">0</span> Likes
+            </button>
+            <button id="share-button" class="action-button">
+                <i class="far fa-share-square"></i> <span id="shares-count">0</span> Shares
+            </button>
+            <button id="comment-button" class="action-button">
+                <i class="far fa-comment"></i> <span id="comments-count">0</span> Comments
+            </button>
+        </div>
+
+        <div class="comments-section">
+            <h2 class="comments-header">Comments</h2>
+            
+            <div id="comment-auth-section">
+                <!-- This section will be populated based on auth status -->
+            </div>
+
+            <div id="comments-list" class="comments-list">
+                <!-- Comments will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Share Modal -->
+    <div class="modal-overlay" id="share-modal-overlay"></div>
+    <div class="share-modal" id="share-modal">
+        <button class="close-modal" onclick="closeShareModal()">&times;</button>
+        <h2>Share this post</h2>
+        
+        <div class="share-stats">
+            <div class="share-stat">
+                <span class="share-stat-number" id="modal-likes-count">0</span>
+                <span class="share-stat-label">Likes</span>
+            </div>
+            <div class="share-stat">
+                <span class="share-stat-number" id="modal-shares-count">0</span>
+                <span class="share-stat-label">Shares</span>
+            </div>
+        </div>
+        
+
+        
+        <div class="share-options">
+            <div class="share-option" onclick="shareOn('facebook')">
+                <i class="fab fa-facebook" style="color: #4267B2;"></i>
+                <span>Facebook</span>
+            </div>
+            <div class="share-option" onclick="shareOn('twitter')">
+                <i class="fab fa-twitter" style="color: #1DA1F2;"></i>
+                <span>Twitter</span>
+            </div>
+            <div class="share-option" onclick="shareOn('linkedin')">
+                <i class="fab fa-linkedin" style="color: #0077b5;"></i>
+                <span>LinkedIn</span>
+            </div>
+            <div class="share-option" onclick="shareOn('whatsapp')">
+                <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+                <span>WhatsApp</span>
+            </div>
         </div>
     </div>
 
     <script>
-        // Get the post ID from the URL
+        // Get post ID from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get("id");
+        const postId = urlParams.get('id');
+        let currentPost = null;
 
-        if (!postId) {
-            document.getElementById("post-detail").innerHTML = "<p>Invalid post ID.</p>";
-        } else {
-            fetch(`http://localhost:5000/posts/${postId}`)
-                .then(response => response.json())
-                .then(post => {
-                    document.getElementById("post-detail").innerHTML = `
-                        <h2>${post.title}</h2>
-                        <p class="meta"><strong>Author:</strong> ${post.author} | <small>${new Date(post.createdAt).toLocaleDateString()}</small></p>
-                        <p>${post.content}</p>
-                    `;
-                })
-                .catch(error => {
-                    document.getElementById("post-detail").innerHTML = "<p>Failed to load the post.</p>";
+        // Check authentication status
+        function isAuthenticated() {
+            const token = localStorage.getItem('token');
+            const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            return token && userLoggedIn;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Update UI state first
+                updateUIState();
+
+                if (!postId) {
+                    throw new Error('Post ID not found');
+                }
+
+                // Load the post
+                await loadPost();
+            } catch (error) {
+                console.error('Error:', error);
+                document.querySelector('.post-container').innerHTML = `
+                    <div class="error-message">
+                        <h2>Error Loading Post</h2>
+                        <p>${error.message}</p>
+                        <a href="/" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </a>
+                    </div>
+                `;
+            }
+        });
+
+        // Update UI based on auth state
+        function updateUIState() {
+            const isLoggedIn = isAuthenticated();
+            
+            // Update nav buttons
+            document.getElementById('login-btn').style.display = isLoggedIn ? 'none' : 'inline-block';
+            document.getElementById('signup-btn').style.display = isLoggedIn ? 'none' : 'inline-block';
+            document.getElementById('logout-btn').style.display = isLoggedIn ? 'inline-block' : 'none';
+            document.getElementById('write-post').style.display = isLoggedIn ? 'inline-block' : 'none';
+            document.getElementById('my-posts-nav').style.display = isLoggedIn ? 'inline-block' : 'none';
+            document.getElementById('profile').style.display = isLoggedIn ? 'inline-block' : 'none';
+
+            // Update header username
+            const username = localStorage.getItem('username');
+            if (username) {
+                document.getElementById('header-username').textContent = username;
+                document.getElementById('welcome-message').style.display = 'inline-block';
+            }
+
+            // Add/remove logged-in class to body for subscription visibility
+            if (isLoggedIn) {
+                document.body.classList.add('logged-in');
+            } else {
+                document.body.classList.remove('logged-in');
+            }
+
+            // Update comment section
+            const commentAuthSection = document.getElementById('comment-auth-section');
+            if (isLoggedIn) {
+                commentAuthSection.innerHTML = `
+                    <textarea id="comment-input" class="comment-input" placeholder="Write a comment..." required></textarea>
+                    <button onclick="handleCommentSubmit(event)" class="comment-submit">Post Comment</button>
+                `;
+            } else {
+                commentAuthSection.innerHTML = `
+                    <div class="login-prompt">
+                        Please <a href="/login.html">login</a> to post a comment.
+                    </div>
+                `;
+            }
+
+            // Update post actions based on auth
+            const likeButton = document.getElementById('like-button');
+            const shareButton = document.getElementById('share-button');
+            if (!isLoggedIn) {
+                likeButton.addEventListener('click', () => {
+                    alert('Please login to like posts');
+                    window.location.href = '/login.html';
                 });
+                shareButton.addEventListener('click', () => {
+                    alert('Please login to share posts');
+                    window.location.href = '/login.html';
+                });
+            }
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Load post content
+        async function loadPost() {
+            if (!postId) {
+                alert('Post ID not found');
+                window.location.href = '/index.html';
+                return;
+            }
+
+            try {
+                // First check post access to track read
+                const token = localStorage.getItem('token');
+                const accessResponse = await fetch(`/api/posts/${postId}/access`, {
+                    headers: {
+                        'Authorization': token ? `Bearer ${token}` : '',
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (!accessResponse.ok) {
+                    const errorData = await accessResponse.json();
+                    if (errorData.reason === 'reading_limit') {
+                        // Show subscription modal
+                        const subscriptionModal = document.getElementById('subscription-modal');
+                        if (subscriptionModal) {
+                            subscriptionModal.style.display = 'block';
+                            
+                            // Update the subscription status message
+                            const statusElement = document.getElementById('subscription-status');
+                            if (statusElement) {
+                                statusElement.textContent = 'You\'ve reached your free reading limit of 5 posts.';
+                            }
+                        } else {
+                            alert('You\'ve reached your reading limit. Please subscribe to continue reading.');
+                        }
+                        return;
+                    }
+                    throw new Error(errorData.message || 'Failed to access post');
+                }
+                
+                // Then fetch the actual post content
+                const response = await fetch(`/api/posts/${postId}`, {
+                    headers: {
+                        'Authorization': token ? `Bearer ${token}` : '',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Failed to load post');
+                }
+
+                currentPost = await response.json();
+                
+                // Update local storage tracking
+                let postsRead = JSON.parse(localStorage.getItem('postsRead') || '[]');
+                if (!postsRead.includes(postId)) {
+                    postsRead.push(postId);
+                    localStorage.setItem('postsRead', JSON.stringify(postsRead));
+                }
+                
+                // Format the content while preserving all text
+                const formattedContent = currentPost.content
+                    .split('\n\n')  // Split on double newlines for paragraphs
+                    .map(paragraph => paragraph.trim())
+                    .filter(paragraph => paragraph.length > 0)
+                    .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
+                    .join('\n');
+                
+                document.getElementById('post-content').innerHTML = `
+                    <div class="post-header">
+                        <h1 class="post-title">${currentPost.title}</h1>
+                        <div class="post-meta">
+                            <span class="post-author"><i class="far fa-user"></i> ${currentPost.userId?.username || 'Unknown'}</span>
+                            <span class="post-date"><i class="far fa-calendar-alt"></i> ${formatDate(currentPost.createdAt)}</span>
+                            <span class="post-views"><i class="far fa-eye"></i> ${currentPost.views || 0} views</span>
+                        </div>
+                        <span class="post-category">${currentPost.category}</span>
+                    </div>
+                    <div class="post-content">
+                        ${formattedContent}
+                    </div>
+                `;
+
+                // Update action buttons
+                document.getElementById('likes-count').textContent = currentPost.likes?.length || 0;
+                document.getElementById('comments-count').textContent = currentPost.comments?.length || 0;
+                document.getElementById('shares-count').textContent = currentPost.shareCount || 0;
+
+                // Update like button state
+                const likeButton = document.getElementById('like-button');
+                if (currentPost.likes && currentPost.likes.includes(localStorage.getItem('userId'))) {
+                    likeButton.classList.add('liked');
+                    likeButton.querySelector('i').classList.remove('far');
+                    likeButton.querySelector('i').classList.add('fas');
+                }
+
+                // Load comments
+                loadComments();
+            } catch (error) {
+                console.error('Error loading post:', error);
+                document.getElementById('post-content').innerHTML = `
+                    <div class="error-message">
+                        <h2>Error Loading Post</h2>
+                        <p>${error.message}</p>
+                        <button onclick="loadPost()" class="retry-button">Try Again</button>
+                        <a href="/" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back to Home
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        // Load comments
+        async function loadComments() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:5000/api/posts/${postId}/comments`, {
+                    headers: {
+                        'Authorization': token ? `Bearer ${token}` : ''
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to load comments');
+
+                const comments = await response.json();
+                const commentsList = document.getElementById('comments-list');
+
+                if (comments.length === 0) {
+                    commentsList.innerHTML = '<p class="no-comments">No comments yet</p>';
+                } else {
+                commentsList.innerHTML = comments.map(comment => `
+                    <div class="comment">
+                        <div class="comment-header">
+                                <span class="comment-author">${comment.author || 'Unknown'}</span>
+                            <span class="comment-date">${formatDate(comment.createdAt)}</span>
+                        </div>
+                        <div class="comment-content">${comment.content}</div>
+                        <div class="comment-actions">
+                                ${comment.userId === localStorage.getItem('userId') || localStorage.getItem('isAdmin') === 'true' ? 
+                                    `<button onclick="deleteComment('${postId}', '${comment._id}')" class="action-button">
+                                        <i class="fas fa-trash"></i> Delete
+                                </button>` : ''
+                            }
+                        </div>
+                    </div>
+                `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading comments:', error);
+                alert('Failed to load comments. Please try again.');
+            }
+        }
+
+        // Handle comment submission
+        async function handleCommentSubmit(e) {
+            e.preventDefault();
+            const commentInput = document.getElementById('comment-input');
+            const content = commentInput.value.trim();
+            
+            if (!content) {
+                alert('Please enter a comment');
+                return;
+            }
+            
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:5000/api/posts/${postId}/comment`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ content })
+                });
+
+                if (!response.ok) throw new Error('Failed to post comment');
+
+                commentInput.value = '';
+                await loadComments();
+                document.getElementById('comments-count').textContent = parseInt(document.getElementById('comments-count').textContent) + 1;
+            } catch (error) {
+                console.error('Error posting comment:', error);
+                alert('Failed to post comment. Please try again.');
+            }
+        }
+
+        // Delete comment
+        async function deleteComment(postId, commentId) {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:5000/api/posts/${postId}/comment/${commentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to delete comment');
+
+                await loadComments();
+                document.getElementById('comments-count').textContent = parseInt(document.getElementById('comments-count').textContent) - 1;
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+                alert('Failed to delete comment. Please try again.');
+            }
+        }
+
+        // Handle like action
+        async function handleLike() {
+            try {
+            if (!isAuthenticated()) {
+                    alert('Please login to like posts');
+                    window.location.href = '/login.html';
+                return;
+            }
+
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:5000/api/posts/${postId}/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to like post');
+
+                // Update like status immediately
+                await checkIfLiked(postId);
+                
+                // Refresh post data
+                await loadPost();
+            } catch (error) {
+                console.error('Error liking post:', error);
+                alert('Failed to like post. Please try again.');
+            }
+        }
+
+        // Share functionality
+        function openShareModal() {
+            document.getElementById('share-modal').classList.add('active');
+            document.getElementById('share-modal-overlay').classList.add('active');
+            
+            // Update stats in modal
+            document.getElementById('modal-likes-count').textContent = document.getElementById('likes-count').textContent;
+            document.getElementById('modal-shares-count').textContent = document.getElementById('shares-count').textContent;
+        }
+
+        function closeShareModal() {
+            document.getElementById('share-modal').classList.remove('active');
+            document.getElementById('share-modal-overlay').classList.remove('active');
+        }
+
+        async function shareOn(platform) {
+            if (!isAuthenticated()) {
+                alert('Please login to share posts');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:5000/api/posts/${postId}/share`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to share post');
+
+                // Get the current URL
+                const postUrl = window.location.href;
+                
+                // Platform-specific sharing
+                switch(platform) {
+                    case 'facebook':
+                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`, '_blank');
+                        break;
+                    case 'twitter':
+                        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(currentPost.title)}`, '_blank');
+                        break;
+                    case 'linkedin':
+                        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`, '_blank');
+                        break;
+                    case 'whatsapp':
+                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(currentPost.title + ' ' + postUrl)}`, '_blank');
+                        break;
+                }
+
+                await loadPost();
+                closeShareModal();
+            } catch (error) {
+                console.error('Error sharing post:', error);
+                alert('Failed to share post. Please try again.');
+            }
+        }
+
+        // Event Listeners
+        const likeButton = document.getElementById('like-button');
+        if (likeButton) {
+            likeButton.addEventListener('click', handleLike);
+        }
+        
+        const shareButton = document.getElementById('share-button');
+        if (shareButton) {
+            shareButton.addEventListener('click', openShareModal);
+        }
+        
+        const shareModalOverlay = document.getElementById('share-modal-overlay');
+        if (shareModalOverlay) {
+            shareModalOverlay.addEventListener('click', closeShareModal);
+        }
+
+        // Check if post is liked by current user
+        async function checkIfLiked(postId) {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return false;
+
+                const userId = localStorage.getItem('userId');
+                if (!userId) return false;
+
+                const response = await fetch(`http://localhost:5000/api/posts/${postId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) return false;
+
+                const post = await response.json();
+                const likeButton = document.getElementById('like-button');
+                
+                if (post.likes && post.likes.includes(userId)) {
+                    likeButton.classList.add('liked');
+                    likeButton.querySelector('i').classList.remove('far');
+                    likeButton.querySelector('i').classList.add('fas');
+                } else {
+                    likeButton.classList.remove('liked');
+                    likeButton.querySelector('i').classList.remove('fas');
+                    likeButton.querySelector('i').classList.add('far');
+                }
+
+                return post.likes && post.likes.includes(userId);
+            } catch (error) {
+                console.error('Error checking like status:', error);
+                return false;
+            }
+        }
+
+        // Logout function
+        function logout() {
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            localStorage.removeItem('token');
+            localStorage.removeItem('userLoggedIn');
+            localStorage.removeItem('username');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('isAdmin');
+            
+            // Redirect based on user role
+            if (isAdmin) {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'index.html';
+            }
         }
     </script>
-
 </body>
 </html>

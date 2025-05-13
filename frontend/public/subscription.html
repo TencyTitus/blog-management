@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe - EchoWrites</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .subscription-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .subscription-header {
+            margin-bottom: 30px;
+        }
+
+        .subscription-header h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .subscription-header p {
+            font-size: 1.2em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .features-list {
+            margin: 30px 0;
+            text-align: left;
+            padding: 0 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            color: #444;
+        }
+
+        .feature-item i {
+            color: #2196F3;
+            font-size: 1.2em;
+        }
+
+        .subscription-cta {
+            margin-top: 40px;
+        }
+
+        .subscribe-btn {
+            display: inline-block;
+            background: #2196F3;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .subscribe-btn:hover {
+            background: #1976D2;
+        }
+
+        .login-prompt {
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .login-prompt a {
+            color: #2196F3;
+            text-decoration: none;
+        }
+
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <a href="/"><i class="fas fa-blog"></i> EchoWrites</a>
+            </div>
+        </div>
+        
+        <div class="nav-bar">
+            <div class="nav-left">
+                <nav>
+                    <a href="/">Home</a>
+                </nav>
+            </div>
+            
+            <div class="nav-right">
+                <a href="login.html">Login</a>
+                <a href="signup.html">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="subscription-container">
+        <div class="subscription-header">
+            <h1>You've Reached Your Reading Limit</h1>
+            <p>You've read 5 free articles this month. Subscribe now to get unlimited access to all our content.</p>
+        </div>
+
+        <div class="features-list">
+            <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Unlimited access to all articles</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Exclusive content and features</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Ad-free reading experience</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Support quality content creation</span>
+            </div>
+        </div>
+
+        <div class="subscription-cta">
+            <a href="payment.html" class="subscribe-btn">Subscribe Now</a>
+            <p class="login-prompt">Already have an account? <a href="login.html">Log in</a></p>
+        </div>
+    </main>
+</body>
+</html> 

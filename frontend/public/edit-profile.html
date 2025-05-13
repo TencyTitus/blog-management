@@ -3,30 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
+    <title>Edit Profile - EchoWrites</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .header {
+            background: #333;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex: 1;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 0;
+            transition: all 0.3s;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-left: auto;
+        }
+
+        .search-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-input {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .search-button {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .search-button:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #auth-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        #auth-buttons a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: all 0.3s;
+            background: transparent;
+            border: none;
+        }
+
+        #auth-buttons a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #user-menu {
+            display: none;
+        }
+
+        #user-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            transition: all 0.3s;
+            background: transparent;
+            border: none;
+        }
+
+        #user-menu a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
 </head>
 <body>
-    <div class="profile-container">
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-blog"></i>
+            EchoWrites
+        </a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="categories.html">Categories</a>
+            <a href="popular-posts.html">Popular Posts</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="auth-section">
+            <div class="search-section">
+                <input type="text" class="search-input" placeholder="Search posts...">
+                <button class="search-button" onclick="searchPosts()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div id="auth-buttons">
+                <a href="login.html">Login</a>
+                <a href="signup.html">Sign Up</a>
+            </div>
+            <div id="user-menu" style="display: none;">
+                <a href="my-posts.html" class="my-posts-link">My Posts</a>
+                <a href="write.html" class="write-post-btn">Write Post</a>
+                <a href="edit-profile.html" class="active">Edit Profile</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="auth-container">
         <h2>Edit Profile</h2>
         <form id="edit-profile-form">
-            <!-- Profile Picture Preview -->
-            <label for="edit-profile-pic">Profile Picture:</label>
-            <img id="current-profile-pic" src="default-avatar.png" width="80" alt="Profile Picture">
-            <input type="file" id="edit-profile-pic" accept="image/*">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
             
-            <!-- Username Input -->
-            <label for="edit-username">Username:</label>
-            <input type="text" id="edit-username" placeholder="Username" required>
-            
-            <!-- Bio Input -->
-            <label for="edit-bio">Short Bio:</label>
-            <textarea id="edit-bio" placeholder="Write something about yourself..."></textarea>
-            
-            <!-- Save Button -->
-            <button type="submit">Save Changes</button>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password to confirm changes" required>
+            </div>
+
+            <div class="form-group">
+                <label for="newPassword">New Password (Optional)</label>
+                <input type="password" id="newPassword" name="newPassword" placeholder="Leave blank to keep current password">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="primary-button">Save Changes</button>
+                <a href="index.html" class="secondary-button">Cancel</a>
+            </div>
         </form>
     </div>
+
     <script src="edit-profile.js"></script>
 </body>
 </html>

@@ -4,77 +4,293 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - EchoWrites</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="auth-container">
-        <h2>Login</h2>
-        <form id="login-form">
-            <input type="text" id="identifier" name="email_or_username" placeholder="Email or Username" required>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <div class="remember-container">
-                <input type="checkbox" id="remember">
-                <label for="remember">Remember Me</label>
-                <a href="#" class="forgot-password">Forgot Password?</a>
-            </div>            
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="signup.html">Sign up</a></p>
-    </div>
-<<<<<<< HEAD
-
-    <script>
-        // Function to store login data in localStorage
-        function loginUser(username, profilePic) {
-            localStorage.setItem("userLoggedIn", "true");
-            localStorage.setItem("username", username);
-            
-            if (profilePic) {
-                localStorage.setItem("userProfile", profilePic); // Store profile image
-            } else {
-                localStorage.setItem("userProfile", "images/default-profile.png"); // Default profile
-            }
-            
-            window.location.href = "index.html"; // Redirect to homepage
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .login-container {
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        document.getElementById("login-form").addEventListener("submit", function(event) {
-            event.preventDefault();
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #f44336;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        .login-btn {
+            background: #f44336;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #1976D2;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #ffebee;
+            border-radius: 4px;
+            border: 1px solid #ef9a9a;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            border: 1px solid #a5d6a7;
+        }
+
+        .social-login {
+            margin-top: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .social-login::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #eee;
+            z-index: 1;
+        }
+
+        .social-login span {
+            background: white;
+            padding: 0 15px;
+            color: #666;
+            position: relative;
+            z-index: 2;
+            font-size: 14px;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .social-button {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .social-button:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+
+        .social-button i {
+            font-size: 18px;
+        }
+
+        .social-button.google i {
+            color: #DB4437;
+        }
+
+        .social-button.facebook i {
+            color: #4267B2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <a href="/"><i class="fas fa-blog"></i> EchoWrites</a>
+            </div>
+        </div>
         
-            const email_or_username = document.getElementById("identifier").value.trim();
-            const password = document.getElementById("password").value.trim();
-        
-            if (!email_or_username || !password) {
-                alert("Email/Username and Password are required");
-                return;
-            }
-        
-            fetch("/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email_or_username, password })
-            })            
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Login Successful! 🎉");
-        
-                    // ✅ Store token & user details
-                    localStorage.setItem("userToken", data.token);
-                    localStorage.setItem("userLoggedIn", "true");
-                    localStorage.setItem("username", data.user.username);
-                    localStorage.setItem("userProfile", data.user.profilePic || "images/default-profile.png");
-        
-                    window.location.href = "index.html"; // Redirect to homepage
-                } else {
-                    alert(data.message);
+        <div class="nav-bar">
+            <div class="nav-left">
+                <nav>
+                    <a href="/">Home</a>
+                </nav>
+            </div>
+            
+            <div class="nav-right">
+                <a href="login.html" class="active">Login</a>
+                <a href="signup.html">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="login-container">
+        <h1>Welcome Back</h1>
+        <form id="login-form" class="login-form">
+            <div class="form-group">
+                <label for="login-email">Email or Username <span class="required-label">*</span></label>
+                <input type="text" id="login-email" name="email_or_username" required placeholder="Enter your email or username">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password <span class="required-label">*</span></label>
+                <input type="password" id="login-password" name="password" required placeholder="Enter your password">
+                <div style="text-align: right; margin-top: 5px;">
+                    <a href="forgot-password.html" class="forgot-password-link">Forgot Password?</a>
+                </div>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <div id="message"></div>
+        </form>
+
+        <div class="social-login">
+            <span>Or continue with</span>
+        </div>
+        <div class="social-buttons">
+            <button class="social-button google">
+                <i class="fab fa-google"></i>
+                Google
+            </button>
+            <button class="social-button facebook">
+                <i class="fab fa-facebook-f"></i>
+                Facebook
+            </button>
+        </div>
+
+        <p style="text-align: center; margin-top: 20px;">
+            Don't have an account? <a href="signup.html">Sign Up</a>
+        </p>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Get form data
+                const email_or_username = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value;
+                
+                // Basic validation
+                if (!email_or_username || !password) {
+                    showMessage('Please enter your email/username and password', 'error');
+                    return;
                 }
-            })
-            .catch(error => console.error("Error:", error));
-        });          
+
+                // Show loading state
+                const submitButton = e.target.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                submitButton.textContent = 'Logging in...';
+                submitButton.disabled = true;
+
+                try {
+                    const response = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email_or_username,
+                            password
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Store user data in localStorage
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('userLoggedIn', 'true');
+                        localStorage.setItem('username', data.user.username);
+                        localStorage.setItem('userId', data.user._id);
+                        localStorage.setItem('isAdmin', data.user.isAdmin);
+
+                        // Show success message
+                        showMessage('Login successful! Redirecting...', 'success');
+
+                        // Redirect based on user role after a short delay
+                        setTimeout(() => {
+                            if (data.user.isAdmin) {
+                                window.location.href = 'admin.html';
+                            } else {
+                                window.location.href = 'index.html';
+                            }
+                        }, 1500);
+                    } else {
+                        throw new Error(data.message || 'Login failed');
+                    }
+
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showMessage(error.message || 'Login failed. Please try again.', 'error');
+                } finally {
+                    // Reset button state
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                }
+            });
+        });
+
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+            
+            // Clear message after 5 seconds for errors
+            if (type === 'error') {
+                setTimeout(() => {
+                    messageDiv.textContent = '';
+                    messageDiv.className = '';
+                }, 5000);
+            }
+        }
     </script>
-=======
-    <script src="auth.js"></script>
->>>>>>> aeeddf86f2946a95ba062a4500bef33aefb4ee18
 </body>
 </html>

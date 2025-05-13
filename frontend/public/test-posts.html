@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Posts</title>
+</head>
+<body>
+    <h1>Posts in Database</h1>
+    <div id="posts"></div>
+
+    <script>
+        async function checkPosts() {
+            try {
+                const response = await fetch('http://localhost:5000/api/posts/test');
+                const data = await response.json();
+                
+                const postsDiv = document.getElementById('posts');
+                postsDiv.innerHTML = `
+                    <p>Total posts: ${data.count}</p>
+                    <ul>
+                        ${data.posts.map(post => `
+                            <li>
+                                <strong>${post.title}</strong> by ${post.author}<br>
+                                Created: ${new Date(post.createdAt).toLocaleString()}
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('posts').innerHTML = '<p>Error checking posts</p>';
+            }
+        }
+
+        // Check posts when page loads
+        document.addEventListener('DOMContentLoaded', checkPosts);
+    </script>
+</body>
+</html>

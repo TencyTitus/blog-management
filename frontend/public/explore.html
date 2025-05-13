@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Blogs - EchoWrites</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .explore-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .filter-group label i {
+            margin-right: 0.5rem;
+            color: #2196F3;
+        }
+
+        .filters select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            min-width: 200px;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .filters select:hover, .filters select:focus {
+            border-color: #2196F3;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .loading i {
+            margin-right: 0.5rem;
+            color: #2196F3;
+        }
+
+        .posts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 400px;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .post-header {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .post-title {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .post-category {
+            align-self: flex-start;
+            background: #e9ecef;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #495057;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .post-meta i {
+            margin-right: 0.5rem;
+            color: #2196F3;
+        }
+
+        .post-content {
+            color: #495057;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            flex-grow: 1;
+            font-size: 1.1rem;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            line-clamp: 5;
+            -webkit-box-orient: vertical;
+        }
+
+        .post-actions {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+        }
+
+        .read-more-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+
+        .read-more-btn i {
+            font-size: 1.1rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .page-btn {
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: #e9ecef;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .page-number {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #fff;
+        }
+
+        .page-number:hover {
+            background: #e9ecef;
+        }
+
+        .page-number.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .no-posts, .error-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            color: #666;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .reading-status {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .reading-status p {
+            margin: 0;
+            color: #666;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            margin: 50px auto;
+            position: relative;
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .primary-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .primary-button:hover {
+            background-color: #0056b3;
+        }
+
+        .read-more {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            padding: 0;
+            font: inherit;
+            text-decoration: underline;
+        }
+
+        .read-more:hover {
+            color: #0056b3;
+        }
+
+        /* Add subscription related styles */
+        .subscription-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1001;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .subscription-modal.active {
+            display: block;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .subscription-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .subscription-info h2 {
+            color: #2196F3;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .subscription-info p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefits {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .benefits li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0.8rem 0;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .benefits i {
+            color: #4CAF50;
+        }
+
+        .subscription-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .subscribe-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .subscribe-button:hover {
+            background: #1976D2;
+        }
+
+        .later-button {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .later-button:hover {
+            background: #555;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            padding: 0.5rem;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .post-limit-notice {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .post-limit-notice h3 {
+            color: #2196F3;
+            margin-bottom: 1rem;
+        }
+
+        .post-limit-notice p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .posts-remaining {
+            font-weight: bold;
+            color: #2196F3;
+        }
+
+        /* Add subscription styles */
+        .subscription-banner {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem auto;
+            max-width: 900px;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+
+        .subscription-banner.show {
+            display: block;
+        }
+
+        .subscription-banner h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .subscription-banner p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .benefits-list {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .benefit-item i {
+            color: #4CAF50;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .subscription-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .subscribe-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .subscribe-button:hover {
+            background: #388E3C;
+        }
+
+        .later-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .later-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <!-- Top Row -->
+        <div class="top-bar">
+            <div class="logo">
+                <a href="/"><i class="fas fa-blog"></i> EchoWrites</a>
+            </div>
+            <div class="welcome-message" id="welcome-message" style="display: none;">
+                Welcome! <span id="header-username"></span>
+            </div>
+        </div>
+        
+        <!-- Bottom Row -->
+        <div class="nav-bar">
+            <div class="nav-left">
+                <nav>
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/categories">Categories</a>
+                    <a href="/popular-posts">Popular Posts</a>
+                    <a href="/contact">Contact</a>
+                </nav>
+            </div>
+            
+            <div class="nav-center">
+                <!-- Search moved to main content area -->
+            </div>
+            
+            <div class="nav-right">
+                <!-- Logged in buttons -->
+                <a href="write.html" id="write-post" style="display: none;">Write a Post</a>
+                <a href="edit-profile.html" id="profile" style="display: none;">Edit Profile</a>
+                <a href="#" id="logout-btn" onclick="logout()" style="display: none;">Logout</a>
+                
+                <!-- Logged out buttons -->
+                <a href="login.html" id="login-btn">Login</a>
+                <a href="signup.html" id="signup-btn">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="explore-container">
+            <div class="explore-header">
+                <h1>Explore Blogs</h1>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="category-filter"><i class="fas fa-tags"></i> Filter by Category:</label>
+                        <select id="category-filter" onchange="handleFilters()">
+                            <option value="">All Categories</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Lifestyle">Lifestyle</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Food">Food</option>
+                            <option value="Health">Health</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort-filter"><i class="fas fa-sort"></i> Sort by:</label>
+                        <select id="sort-filter" onchange="handleFilters()">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="popular">Most Popular</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add subscription banner -->
+            <div class="subscription-banner" id="subscription-banner">
+                <h2>Upgrade to Premium</h2>
+                <p>Get unlimited access to all blog posts and exclusive content!</p>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>Unlimited blog posts</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>Ad-free reading</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>Early access</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check"></i>
+                        <span>Premium support</span>
+                    </div>
+                </div>
+                <div class="subscription-actions">
+                    <button class="subscribe-button" onclick="handleSubscription()">Subscribe Now</button>
+                    <button class="later-button" onclick="hideSubscription()">Maybe Later</button>
+                </div>
+            </div>
+
+            <!-- Posts Container -->
+            <div class="posts-container" id="posts-container">
+                <!-- Posts will be dynamically loaded here -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button id="prev-page" class="page-btn" onclick="changePage('prev')">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <div id="page-numbers" class="page-numbers">
+                    <!-- Page numbers will be dynamically inserted here -->
+                </div>
+                <button id="next-page" class="page-btn" onclick="changePage('next')">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Subscription Modal -->
+    <div class="modal-overlay" id="subscription-modal-overlay"></div>
+    <div class="subscription-modal" id="subscription-modal">
+        <button class="close-modal" onclick="closeSubscriptionModal()">&times;</button>
+        <div class="subscription-info">
+            <h2>Unlock Unlimited Access</h2>
+            <p>You've reached your free reading limit. Subscribe now to access unlimited blog posts!</p>
+            
+            <ul class="benefits">
+                <li><i class="fas fa-check"></i> Unlimited access to all articles</li>
+                <li><i class="fas fa-check"></i> Exclusive premium content</li>
+                <li><i class="fas fa-check"></i> Ad-free reading experience</li>
+                <li><i class="fas fa-check"></i> Support quality content</li>
+                <li><i class="fas fa-check"></i> Early access to new features</li>
+            </ul>
+            
+            <div class="subscription-actions">
+                <button onclick="navigateToPayment()" class="subscribe-button">Subscribe Now</button>
+                <button onclick="closeSubscriptionModal()" class="later-button">Maybe Later</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Constants
+        const POSTS_PER_PAGE = 6;
+        let currentPage = 1;
+        let totalPosts = 0;
+        let freePostsRead = 0;
+        let isSubscribed = false;
+
+        // Load posts on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            updateAuthUI();
+            await checkSubscriptionStatus(); // Check subscription status first
+            await fetchPosts();
+            await checkPostLimit();
+        });
+
+        // Fetch posts with authorization
+        async function fetchPosts() {
+            try {
+                // Construct URL with filters
+                const category = document.getElementById('category-filter').value;
+                const sortBy = document.getElementById('sort-filter').value;
+                
+                // Show loading indicator
+                document.getElementById('posts-container').innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading posts...</div>';
+                
+                let url = `/api/posts?page=${currentPage}&limit=${POSTS_PER_PAGE}`;
+                if (category) url += `&category=${encodeURIComponent(category)}`;
+                if (sortBy) url += `&sort=${sortBy}`;
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) throw new Error('Failed to load posts');
+
+                const data = await response.json();
+                totalPosts = data.totalPosts;
+                
+                // Check subscription status and show banner if needed
+                const postsRead = JSON.parse(localStorage.getItem('postsRead') || '[]');
+                if (postsRead.length >= 5) { // Changed from 3 to 4 to show banner on 5th post
+                    showSubscription();
+                }
+                
+                displayPosts(data.posts);
+                updatePagination();
+                await checkPostLimit(); // Show reading status
+                
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+                document.getElementById('posts-container').innerHTML = 
+                    '<p class="error-message">Failed to load posts. Please try again later.</p>';
+            }
+        }
+
+        // Update UI based on auth state
+        function updateAuthUI() {
+            const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+            const username = localStorage.getItem("username");
+            
+            // Update UI elements based on login state
+            document.getElementById("welcome-message").style.display = isLoggedIn ? 'block' : 'none';
+            if (username) {
+                document.getElementById("header-username").textContent = username;
+            }
+            document.getElementById("write-post").style.display = isLoggedIn ? 'block' : 'none';
+            document.getElementById("profile").style.display = isLoggedIn ? 'block' : 'none';
+            document.getElementById("logout-btn").style.display = isLoggedIn ? 'block' : 'none';
+            document.getElementById("login-btn").style.display = isLoggedIn ? 'none' : 'block';
+            document.getElementById("signup-btn").style.display = isLoggedIn ? 'none' : 'block';
+        }
+
+        function displayPosts(posts) {
+            const postsContainer = document.getElementById('posts-container');
+            postsContainer.innerHTML = '';
+            
+            if (!posts || posts.length === 0) {
+                postsContainer.innerHTML = '<div class="no-posts">No posts found. Try different filters or search terms.</div>';
+                document.getElementById('page-numbers').innerHTML = '';
+                return;
+            }
+
+            posts.forEach(post => {
+                const postElement = document.createElement('article');
+                postElement.className = 'post-card';
+                
+                // Format the date
+                const date = new Date(post.createdAt);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Truncate content to show first 300 characters while preserving words
+                const maxLength = 300;
+                let truncatedContent = post.content;
+                if (post.content.length > maxLength) {
+                    truncatedContent = post.content.substr(0, post.content.lastIndexOf(' ', maxLength)) + '...';
+                }
+                
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <h2 class="post-title">${post.title || 'Untitled Post'}</h2>
+                        <span class="post-category">${post.category || 'Uncategorized'}</span>
+                    </div>
+                    <div class="post-meta">
+                        <span class="post-date"><i class="far fa-calendar-alt"></i> ${formattedDate}</span>
+                        ${post.userId?.username ? 
+                            `<span class="post-author"><i class="far fa-user"></i> ${post.userId.username}</span>` : 
+                            ''}
+                        <span class="post-views"><i class="far fa-eye"></i> ${post.views || 0} views</span>
+                    </div>
+                    <div class="post-content">
+                        <p>${truncatedContent || 'No content available.'}</p>
+                    </div>
+                    <div class="post-actions">
+                        <button onclick="handlePostClick('${post._id}')" class="read-more-btn">
+                            <i class="fas fa-book-reader"></i> Read More
+                        </button>
+                    </div>
+                `;
+                
+                postsContainer.appendChild(postElement);
+            });
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+            const pageNumbers = document.getElementById('page-numbers');
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            
+            // Update prev/next buttons
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            
+            // Update page numbers
+            pageNumbers.innerHTML = '';
+            
+            // Show up to 5 page numbers
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            
+            // Adjust start if we're near the end
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+            
+            // Add first page and ellipsis if needed
+            if (startPage > 1) {
+                const firstBtn = createPageButton(1);
+                pageNumbers.appendChild(firstBtn);
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.className = 'page-ellipsis';
+                    pageNumbers.appendChild(ellipsis);
+                }
+            }
+            
+            // Add page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = createPageButton(i);
+                pageNumbers.appendChild(pageBtn);
+            }
+            
+            // Add last page and ellipsis if needed
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.className = 'page-ellipsis';
+                    pageNumbers.appendChild(ellipsis);
+                }
+                const lastBtn = createPageButton(totalPages);
+                pageNumbers.appendChild(lastBtn);
+            }
+        }
+        
+        function createPageButton(pageNum) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = 'page-number';
+            if (pageNum === currentPage) pageBtn.classList.add('active');
+            pageBtn.textContent = pageNum;
+            pageBtn.onclick = () => {
+                if (pageNum !== currentPage) {
+                    currentPage = pageNum;
+                    fetchPosts();
+                }
+            };
+            return pageBtn;
+        }
+
+        // Handle filter changes
+        function handleFilters() {
+            currentPage = 1;
+            fetchPosts();
+        }
+
+        // Handle page changes
+        function changePage(direction) {
+            if (direction === 'prev' && currentPage > 1) {
+                currentPage--;
+            } else if (direction === 'next' && currentPage < Math.ceil(totalPosts / POSTS_PER_PAGE)) {
+                currentPage++;
+            }
+            fetchPosts();
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = "/";
+        }
+
+        function closeSubscriptionModal() {
+            document.getElementById('subscription-modal').classList.remove('active');
+            document.getElementById('subscription-modal-overlay').classList.remove('active');
+        }
+
+        function updateReadingStatus() {
+            // Remove any existing status display
+            const existing = document.querySelector('.reading-status');
+            if (existing) {
+                existing.remove();
+            }
+            
+            const readingStatus = document.createElement('div');
+            readingStatus.className = 'reading-status';
+            
+            if (!isSubscribed && freePostsRead > 0) {
+                readingStatus.innerHTML = `
+                    <p>You've read ${freePostsRead} of 5 free posts
+                    ${freePostsRead >= 4 ? ' - Subscribe soon to keep reading!' : ''}</p>
+                `;
+                document.querySelector('.explore-header').appendChild(readingStatus);
+            }
+        }
+
+        // Handle post click with improved tracking
+        async function handlePostClick(postId) {
+            const token = localStorage.getItem('token');
+            
+            // First check server-side access to ensure we track the read
+            try {
+                const response = await fetch(`/api/posts/${postId}/access`, {
+                    headers: {
+                        'Authorization': token ? `Bearer ${token}` : ''
+                    }
+                });
+                
+                if (!response.ok) {
+                    const data = await response.json();
+                    if (data.reason === 'reading_limit') {
+                        // Show subscription modal
+                        showSubscriptionModal();
+                        return;
+                    }
+                    throw new Error(data.message || 'Error accessing post');
+                }
+            } catch (error) {
+                console.error('Error checking post access:', error);
+                alert('Error accessing post. Please try again.');
+                return;
+            }
+            
+            // For client-side tracking
+            let postsRead = JSON.parse(localStorage.getItem('postsRead') || '[]');
+            
+            // Track the post read in localStorage if not already tracked
+            if (!postsRead.includes(postId)) {
+                postsRead.push(postId);
+                localStorage.setItem('postsRead', JSON.stringify(postsRead));
+                
+                // Update the displayed count
+                freePostsRead = postsRead.length;
+                updateReadingStatus();
+                                // Show subscription banner after 4 posts
+                if (postsRead.length >= 5) {
+                    showSubscription();
+                }
+                
+                // Show subscription modal if reached limit (5 posts)
+                if (postsRead.length >= 5) {
+                    showSubscriptionModal();
+                    return;
+                }
+            }
+
+            // Navigate to the post if within limit
+            window.location.href = `/post.html?id=${postId}`;
+        }
+
+        // Check if user is subscribed
+        async function checkSubscriptionStatus() {
+            const token = localStorage.getItem('token');
+            if (!token) return false;
+
+            // First check localStorage
+            if (localStorage.getItem('subscriptionStatus') === 'active') {
+                return true;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/api/subscription/status', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to check subscription status');
+                }
+
+                const data = await response.json();
+                
+                // Update localStorage with subscription status
+                if (data.isSubscribed) {
+                    localStorage.setItem('subscriptionStatus', 'active');
+                    localStorage.setItem('hasSubscription', 'true');
+                    // Clear post read count for subscribed users
+                    localStorage.removeItem('postsRead');
+                } else {
+                    localStorage.removeItem('subscriptionStatus');
+                    localStorage.removeItem('hasSubscription');
+                }
+
+                return data.isSubscribed;
+            } catch (error) {
+                console.error('Error checking subscription:', error);
+                return false;
+            }
+        }
+
+        // Check post limit
+        async function checkPostLimit() {
+            const token = localStorage.getItem('token');
+            
+            if (token) {
+                // Check subscription status for logged-in users
+                const isSubscribed = await checkSubscriptionStatus();
+                if (isSubscribed) {
+                    return true; // Subscribed users have no limit
+                }
+            }
+
+            // For non-subscribed users
+            const postsRead = JSON.parse(localStorage.getItem('postsRead') || '[]');
+            const remainingPosts = 5 - postsRead.length;
+
+            // Only track the limit without showing the notice
+            return remainingPosts >= 0;
+        }
+
+        function trackPostRead(postId) {
+            const token = localStorage.getItem('token');
+            
+            if (!token) {
+                // For non-logged in users
+                let postsRead = JSON.parse(localStorage.getItem('postsRead') || '[]');
+                if (!postsRead.includes(postId)) {
+                    postsRead.push(postId);
+                    localStorage.setItem('postsRead', JSON.stringify(postsRead));
+                }
+
+                // Show subscription modal if reached limit (5 posts)
+                if (postsRead.length >= 5) {
+                    showSubscriptionModal();
+                }
+            }
+        }
+
+        function showSubscriptionModal() {
+            const modal = document.getElementById('subscription-modal');
+            if (!modal) {
+                console.error('Subscription modal not found');
+                alert('You\'ve reached your reading limit. Please subscribe to continue reading.');
+                return;
+            }
+            
+            modal.style.display = 'block';
+            
+            // Update the subscription modal message
+            const statusElement = document.getElementById('subscription-status');
+            if (statusElement) {
+                statusElement.textContent = `You've reached your free reading limit of 5 posts.`;
+            }
+        }
+
+        function navigateToPayment() {
+            window.location.href = '/payment.html';
+        }
+
+        // Add event listener for subscription modal overlay
+        document.getElementById('subscription-modal-overlay').addEventListener('click', closeSubscriptionModal);
+
+        // Show subscription banner
+        function showSubscription() {
+            const banner = document.getElementById('subscription-banner');
+            if (banner) {
+                banner.classList.add('show');
+            }
+        }
+
+        // Hide subscription banner
+        function hideSubscription() {
+            const banner = document.getElementById('subscription-banner');
+            if (banner) {
+                banner.classList.remove('show');
+                localStorage.setItem('hideSubscription', 'true');
+            }
+        }
+
+        // Handle subscription
+        async function handleSubscription() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                // First check if user is already subscribed
+                const subscriptionStatus = await checkSubscriptionStatus();
+                if (subscriptionStatus) {
+                    alert('You are already subscribed!');
+                    hideSubscription();
+                    return;
+                }
+
+                // Redirect to payment page instead of direct subscription
+                window.location.href = '/payment.html';
+                return;
+
+                /* Commenting out direct subscription as it requires payment processing
+                const response = await fetch('http://localhost:5000/api/subscription/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to process subscription');
+                }
+
+                const result = await response.json();
+                alert('Subscription successful! You now have unlimited access to all blog posts.');
+                hideSubscription();
+                window.location.reload();
+                */
+            } catch (error) {
+                console.error('Subscription error details:', error);
+                alert('Please complete the payment process to subscribe. Redirecting to payment page...');
+                window.location.href = '/payment.html';
+            }
+        }
+    </script>
+</body>
+</html>
